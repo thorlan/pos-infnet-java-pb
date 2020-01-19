@@ -1,9 +1,9 @@
 package br.com.infnet.java.projeto_de_bloco.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
 import br.com.infnet.java.projeto_de_bloco.model.Conta;
 
 /**
@@ -13,11 +13,13 @@ import br.com.infnet.java.projeto_de_bloco.model.Conta;
  */
 public class BancoDB {
 	
+	private static int id;
 	private static BancoDB bancoSingleton;
-	private static List<Conta> contas;
+	private List<Conta> contas;
+	private Persistencia persistencia;
 	
 	private BancoDB() {
-		contas = new ArrayList<>();
+		persistencia = new Persistencia();
 		populaContas();
 	}
 	
@@ -41,15 +43,34 @@ public class BancoDB {
 		return (c.getNumero() == numeroDaConta) && (c.getPin() == pin);
 	}
 	
+	public void persiste() {
+		try {
+			persistencia.persist(contas);
+		} catch (RecursoNaoEncontradoException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	/**
-	 * Popula a base de dados com duas contas para serem trabalhadas no sistema ATM 
+	 * Popula a base de dados com as contas existentes em Account.txt
 	 */
 	private void populaContas() {
-		Conta conta = new Conta(1,400,123);
-		Conta contaDois = new Conta(2,800,345);
 		
-		contas.add(conta);
-		contas.add(contaDois);
+		try {
+			this.contas = persistencia.getContas();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (RecursoNaoEncontradoException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void addConta(Conta conta) {
+		this.contas.add(conta);
+	}
+	
+	public List<Conta> getContas() {
+		return this.contas;
 	}
 
 }

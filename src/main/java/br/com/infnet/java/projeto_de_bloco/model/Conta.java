@@ -1,5 +1,7 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author thiago
@@ -10,16 +12,23 @@ package br.com.infnet.java.projeto_de_bloco.model;
  *  pin do cliente, que serve para autenticar o mesmo (int pin)
  * 
  */
-public class Conta {
+public class Conta implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String nome;
 	private int numero;
 	private double saldo;
 	private int pin;
 	
-	public Conta(int numero, double saldo, int pin) {
+	public Conta(int numero, double saldo, int pin, String nome) {
 		this.numero = numero;
 		this.saldo = saldo;
 		this.pin = pin;
+		this.nome = nome;
 	}
 
 	public int getNumero() {
@@ -32,6 +41,14 @@ public class Conta {
 
 	public int getPin() {
 		return pin;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 	
 	/**

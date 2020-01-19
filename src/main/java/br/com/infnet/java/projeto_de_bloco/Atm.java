@@ -1,7 +1,5 @@
 package br.com.infnet.java.projeto_de_bloco;
 
-import java.util.Optional;
-
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
 import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
 import br.com.infnet.java.projeto_de_bloco.model.ConsultaDeSaldo;
@@ -14,10 +12,12 @@ import br.com.infnet.java.projeto_de_bloco.model.Tela;
 import br.com.infnet.java.projeto_de_bloco.model.Transacao;
 
 /**
- * Hello world!
+ * Representa o atm e suas funcionalidades
  *
  */
 public class Atm {
+
+	// TODO: pedido 11
 
 	private BancoDB bancoDb = BancoDB.getInstance();
 	private Tela tela;
@@ -36,37 +36,76 @@ public class Atm {
 
 	public static void main(String[] args) {
 		Atm atm = new Atm();
-
-		int entradaDoUsuario = 0;
-
 		do {
-			atm.tela.showMenu();
-			entradaDoUsuario = atm.teclado.getUserInput();
+
 			try {
-				atm.executaTarefa(entradaDoUsuario);
+				if (atm.usuarioAutenticado) {
+					atm.menuParaUsuarioLogado(atm);
+				} else {
+					atm.menuPadrao(atm);
+
+				}
 			} catch (RecursoNaoEncontradoException e) {
 				System.out.println(e.getMessage());
 			}
 			
-		} while (entradaDoUsuario != 4);
+			atm.tela.delimitador();
 
-		System.out.println("Você saiu com sucesso do sistema ATM.");
-		atm.teclado.closeInput();
+		} while (true);
+
+	}
+
+	private void menuPadrao(Atm atm) throws RecursoNaoEncontradoException {
+		atm.tela.showMenuPadrao();
+		atm.tela.mostraMensagem("Digite a opção desejada:");
+		int entradaDoUsuario = atm.teclado.getUserInput();
+		atm.executaTarefaUsuarioNaoLogado(entradaDoUsuario);
+		
+	}
+
+	private void executaTarefaUsuarioNaoLogado(int entradaDoUsuario) throws RecursoNaoEncontradoException {
+		switch (entradaDoUsuario) {
+		case 1:
+			oUsuarioEstaAutenticado();
+			break;
+		case 2:
+			tela.mostraMensagem("Opção escolhida (2) Depósito:"); 
+			deposita();
+			break;
+		default:
+			System.out.println("Comando não encontrado.");
+			break;
+		}
+		
+	}
+
+	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException {
+		atm.tela.mostraMensagemDeBoasVindas(usuarioLogado);
+		atm.tela.showMenu();
+		atm.tela.mostraMensagem("Digite a opção desejada:");
+		int entradaDoUsuario = atm.teclado.getUserInput();
+		atm.executaTarefa(entradaDoUsuario);
+
 	}
 
 	private void executaTarefa(int entradaDoUsuario) throws RecursoNaoEncontradoException {
 
 		switch (entradaDoUsuario) {
 		case 1:
+			tela.mostraMensagem("Opção escolhida (1) Consulta de saldo:"); 
 			consultaSaldo();
 			break;
 		case 2:
+			tela.mostraMensagem("Opção escolhida (2) Depósito:"); 
 			deposita();
 			break;
 		case 3:
+			tela.mostraMensagem("Opção escolhida (3) Saque:"); 
 			saque();
 			break;
 		case 4:
+			this.usuarioAutenticado = false;
+			this.usuarioLogado = null;
 			break;
 		default:
 			System.out.println("Comando não encontrado.");
@@ -75,37 +114,34 @@ public class Atm {
 	}
 
 	private void saque() throws RecursoNaoEncontradoException {
-		oUsuarioEstaAutenticado();
-		
+
 		this.tela.mostraMensagem("Digite o valor a ser sacado");
 		int valorASacar = this.teclado.getUserInput();
-		
+
 		if (this.dispensadorDeCedulas.isSufficientCashAvailable(valorASacar)) {
-			this.transacao = new Saque(usuarioLogado, valorASacar);
+			this.transacao = new Saque(usuarioLogado, valorASacar, bancoDb);
 			this.tela.mostraMensagem(this.transacao.executa());
 		} else {
 			System.out.println("Não existem cédulas suficientes para realizar o saque no ATM.");
 		}
-		
+
 	}
 
 	private void deposita() throws RecursoNaoEncontradoException {
-		
+
 		this.tela.mostraMensagem("Digite o número da conta");
-		Conta contaADepositar = this.bancoDb.findConta(this.teclado.getUserInput()).
-				orElseThrow(()-> new RecursoNaoEncontradoException("Conta não econtrada!"));
-		
-		this.tela.mostraMensagem("Entre com o valor a ser depositado");
+		Conta contaADepositar = this.bancoDb.findConta(this.teclado.getUserInput())
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Conta não econtrada!"));
+
+		this.tela.mostraMensagem("Entre com o valor a ser depositado na conta: " + contaADepositar.getNumero());
 		int valor = teclado.getUserInput();
-		
-		this.transacao = new Deposito(contaADepositar, valor);
+
+		this.transacao = new Deposito(contaADepositar, valor, bancoDb);
 		this.tela.mostraMensagem(transacao.executa());
 	}
 
 	private void consultaSaldo() throws RecursoNaoEncontradoException {
 
-		oUsuarioEstaAutenticado();
-		
 		this.transacao = new ConsultaDeSaldo(usuarioLogado);
 		tela.mostraMensagem(transacao.executa());
 
@@ -117,7 +153,8 @@ public class Atm {
 				throw new RecursoNaoEncontradoException("Erro ao autenticar para CONTA e PIN informados");
 			}
 		}
-		return true;
+		this.usuarioAutenticado = true;
+		return usuarioAutenticado;
 	}
 
 	private boolean autenticaUsuario() {
