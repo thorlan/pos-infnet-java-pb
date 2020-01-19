@@ -1,5 +1,7 @@
 package br.com.infnet.java.projeto_de_bloco;
 
+import java.util.InputMismatchException;
+
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
 import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
 import br.com.infnet.java.projeto_de_bloco.model.ConsultaDeSaldo;
@@ -16,8 +18,6 @@ import br.com.infnet.java.projeto_de_bloco.model.Transacao;
  *
  */
 public class Atm {
-
-	// TODO: pedido 11
 
 	private BancoDB bancoDb = BancoDB.getInstance();
 	private Tela tela;
@@ -36,19 +36,22 @@ public class Atm {
 
 	public static void main(String[] args) {
 		Atm atm = new Atm();
+		
 		do {
-
+			
 			try {
 				if (atm.usuarioAutenticado) {
 					atm.menuParaUsuarioLogado(atm);
 				} else {
 					atm.menuPadrao(atm);
-
 				}
 			} catch (RecursoNaoEncontradoException e) {
 				System.out.println(e.getMessage());
+			} catch (InputMismatchException e) {
+				System.out.println("Somente números são aceitos");
+				atm.teclado = new Teclado();
 			}
-			
+
 			atm.tela.delimitador();
 
 		} while (true);
@@ -58,9 +61,20 @@ public class Atm {
 	private void menuPadrao(Atm atm) throws RecursoNaoEncontradoException {
 		atm.tela.showMenuPadrao();
 		atm.tela.mostraMensagem("Digite a opção desejada:");
-		int entradaDoUsuario = atm.teclado.getUserInput();
+		Integer entradaDoUsuario = atm.teclado.getUserInput();
+
 		atm.executaTarefaUsuarioNaoLogado(entradaDoUsuario);
+
+	}
+
+	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException {
+		atm.tela.mostraMensagemDeBoasVindas(usuarioLogado);
+		atm.tela.showMenu();
+		atm.tela.mostraMensagem("Digite a opção desejada:");
+		Integer entradaDoUsuario = atm.teclado.getUserInput();
 		
+		atm.executaTarefa(entradaDoUsuario);
+
 	}
 
 	private void executaTarefaUsuarioNaoLogado(int entradaDoUsuario) throws RecursoNaoEncontradoException {
@@ -69,22 +83,13 @@ public class Atm {
 			oUsuarioEstaAutenticado();
 			break;
 		case 2:
-			tela.mostraMensagem("Opção escolhida (2) Depósito:"); 
+			tela.mostraMensagem("Opção escolhida (2) Depósito:");
 			deposita();
 			break;
 		default:
 			System.out.println("Comando não encontrado.");
 			break;
 		}
-		
-	}
-
-	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException {
-		atm.tela.mostraMensagemDeBoasVindas(usuarioLogado);
-		atm.tela.showMenu();
-		atm.tela.mostraMensagem("Digite a opção desejada:");
-		int entradaDoUsuario = atm.teclado.getUserInput();
-		atm.executaTarefa(entradaDoUsuario);
 
 	}
 
@@ -92,15 +97,15 @@ public class Atm {
 
 		switch (entradaDoUsuario) {
 		case 1:
-			tela.mostraMensagem("Opção escolhida (1) Consulta de saldo:"); 
+			tela.mostraMensagem("Opção escolhida (1) Consulta de saldo:");
 			consultaSaldo();
 			break;
 		case 2:
-			tela.mostraMensagem("Opção escolhida (2) Depósito:"); 
+			tela.mostraMensagem("Opção escolhida (2) Depósito:");
 			deposita();
 			break;
 		case 3:
-			tela.mostraMensagem("Opção escolhida (3) Saque:"); 
+			tela.mostraMensagem("Opção escolhida (3) Saque:");
 			saque();
 			break;
 		case 4:
@@ -118,7 +123,7 @@ public class Atm {
 		this.tela.mostraMensagem("Digite o valor a ser sacado");
 		int valorASacar = this.teclado.getUserInput();
 
-		if (this.dispensadorDeCedulas.isSufficientCashAvailable(valorASacar)) {
+		if (this.dispensadorDeCedulas.dispenseCash(valorASacar)) {
 			this.transacao = new Saque(usuarioLogado, valorASacar, bancoDb);
 			this.tela.mostraMensagem(this.transacao.executa());
 		} else {

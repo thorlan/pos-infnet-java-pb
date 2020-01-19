@@ -66,7 +66,10 @@ public class BancoDB {
 	}
 	
 	public void addConta(Conta conta) {
+		id = this.contas.size() + 1;
+		conta.setNumero(id);
 		this.contas.add(conta);
+		
 	}
 	
 	public List<Conta> getContas() {

@@ -15,7 +15,6 @@ public class Deposito extends Transacao {
 	public String executa() {
 		this.getConta().depositar(this.getValor());
 		bancoDb.persiste();
-		String saldoFormatado = mostraMensagemFormatadaParaDolar(this.getConta().getSaldo());
 		return "Depósito de: " + this.mostraMensagemFormatadaParaDolar(getValor()) +
 				" efetuado na conta: " + this.getConta().getNumero();
 	}

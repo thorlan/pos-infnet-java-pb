@@ -2,6 +2,7 @@ package br.com.infnet.java.projeto_de_bloco;
 
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
 import br.com.infnet.java.projeto_de_bloco.model.Conta;
+import br.com.infnet.java.projeto_de_bloco.model.DispensadorDeCedulas;
 
 public class PopulaContas {
 
@@ -15,7 +16,13 @@ public class PopulaContas {
 		//bd.addConta(conta2);
 		//bd.persiste();
 		
-		bd.getContas().forEach(c -> System.out.println(c.getNumero()));
+		//bd.getContas().forEach(c -> System.out.println(c.getNumero()));
+		
+		DispensadorDeCedulas dp = new DispensadorDeCedulas();
+		
+		dp.dispenseCash(100);
+		
+		//dp.dispenseCash(1);
 		
 	}
 }

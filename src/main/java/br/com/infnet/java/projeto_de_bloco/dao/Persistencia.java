@@ -39,6 +39,7 @@ public class Persistencia {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Conta> getContas() throws   RecursoNaoEncontradoException, ClassNotFoundException{
 		
 		criaSeNaoExistir();

@@ -1,6 +1,5 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -11,28 +10,19 @@ import java.util.Scanner;
  */
 public class Teclado {
 	
-	Scanner input;
-	
-	public Teclado() {
-		input = new Scanner(System.in);
-	}
-	
+	Scanner input = new Scanner(System.in);
 	/**
 	 * Recupera a entrada do usuário, caso o mesmo insira algo 
 	 * que não seja um inteiro, uma mensagem de erro é exibida
 	 * @return a entrada do usuário.
 	 */
-	public int getUserInput() {
-		
-		try {
-			return input.nextInt();
-		} catch (InputMismatchException e) {
-			System.out.println("Somente números são aceitos neste campo.");
-			return 0;
-		}
+	public Integer getUserInput() {
+		return input.nextInt();
 	}
-	
+
 	public void closeInput() {
 		input.close();
 	}
+	
+	
 }

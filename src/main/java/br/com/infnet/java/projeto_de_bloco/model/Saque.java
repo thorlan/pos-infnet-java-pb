@@ -1,13 +1,12 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
-import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
 
 public class Saque extends Transacao{
 
 	private BancoDB bancoDb;
 	
-	public Saque(Conta conta, double valor, BancoDB bancoDb) throws RecursoNaoEncontradoException {
+	public Saque(Conta conta, double valor, BancoDB bancoDb)  {
 		super(conta, valor);
 		this.bancoDb = bancoDb;
 	}

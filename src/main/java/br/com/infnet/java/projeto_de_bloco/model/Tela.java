@@ -1,7 +1,5 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
-import java.io.IOException;
-
 /**
  * 
  * @author thiago Representa a tela de um caixa automático. Usada para exibir as
@@ -18,7 +16,7 @@ public class Tela {
 	}
 
 	/**
-	 * Mostra o menu do ATM.
+	 * Mostra o menu do ATM para o usuário logado.
 	 * 
 	 * @return void
 	 */
@@ -30,13 +28,16 @@ public class Tela {
 		System.out.println("4: Sair");
 		delimitador();
 	}
-
+	/**
+	 * Mostra o menu do ATM para usuários não logados.
+	 * 
+	 * @return void
+	 */
 	public void showMenuPadrao() {
 		System.out.println("-----------ATM-----------------");
 		System.out.println("1: Logar no sistema");
 		System.out.println("2: Depósito");
 		delimitador();
-		System.out.println("\n\n");
 		
 	}
 	
@@ -46,6 +47,7 @@ public class Tela {
 
 	public void delimitador() {
 		System.out.println("--------------------------------");
+		System.out.println("\n\n");
 	}
 
 }
