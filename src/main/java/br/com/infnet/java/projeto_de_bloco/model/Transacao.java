@@ -3,9 +3,12 @@ package br.com.infnet.java.projeto_de_bloco.model;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import br.com.infnet.java.projeto_de_bloco.exception.ValorInvalidoException;
+
 /**
  * 
- * @author thiago Representa uma transação genérica em um ATM (depósito, saque,
+ * @author thiago 
+ * 		   Representa uma transação genérica em um ATM (depósito, saque,
  *         consulta de saldo) Contem dois atributos, um é o valor da transação
  *         (double valor) e o outro é o número da conta de destino (int
  *         numeroDaConta)
@@ -16,7 +19,8 @@ public abstract class Transacao {
 	private double valor;
 	private Conta conta;
 
-	public Transacao(Conta conta, double valor) {
+	public Transacao(Conta conta, double valor) throws ValorInvalidoException {
+		checaValor(valor);
 		this.conta = conta;
 		this.valor = valor;
 	}
@@ -31,6 +35,12 @@ public abstract class Transacao {
 
 	public Conta getConta() {
 		return this.conta;
+	}
+	
+	private void checaValor(double valor) throws ValorInvalidoException {
+		if (valor < 0) {
+			throw new ValorInvalidoException("Somente valores maiores que zero são aceitos");
+		}
 	}
 
 	protected String mostraMensagemFormatadaParaDolar(double valor) {

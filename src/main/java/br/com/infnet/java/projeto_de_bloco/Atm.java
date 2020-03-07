@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
 import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
+import br.com.infnet.java.projeto_de_bloco.exception.ValorInvalidoException;
 import br.com.infnet.java.projeto_de_bloco.model.ConsultaDeSaldo;
 import br.com.infnet.java.projeto_de_bloco.model.Conta;
 import br.com.infnet.java.projeto_de_bloco.model.Deposito;
@@ -38,27 +39,25 @@ public class Atm {
 		Atm atm = new Atm();
 		
 		do {
-			
+			atm.tela.delimitador();
 			try {
 				if (atm.usuarioAutenticado) {
 					atm.menuParaUsuarioLogado(atm);
 				} else {
 					atm.menuPadrao(atm);
 				}
-			} catch (RecursoNaoEncontradoException e) {
+			} catch (RecursoNaoEncontradoException | ValorInvalidoException e) {
 				System.out.println(e.getMessage());
 			} catch (InputMismatchException e) {
 				System.out.println("Somente números são aceitos");
 				atm.teclado = new Teclado();
 			}
 
-			atm.tela.delimitador();
-
 		} while (true);
 
 	}
 
-	private void menuPadrao(Atm atm) throws RecursoNaoEncontradoException {
+	private void menuPadrao(Atm atm) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		atm.tela.showMenuPadrao();
 		atm.tela.mostraMensagem("Digite a opção desejada:");
 		Integer entradaDoUsuario = atm.teclado.getUserInput();
@@ -67,7 +66,7 @@ public class Atm {
 
 	}
 
-	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException {
+	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		atm.tela.mostraMensagemDeBoasVindas(usuarioLogado);
 		atm.tela.showMenu();
 		atm.tela.mostraMensagem("Digite a opção desejada:");
@@ -77,7 +76,7 @@ public class Atm {
 
 	}
 
-	private void executaTarefaUsuarioNaoLogado(int entradaDoUsuario) throws RecursoNaoEncontradoException {
+	private void executaTarefaUsuarioNaoLogado(int entradaDoUsuario) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		switch (entradaDoUsuario) {
 		case 1:
 			oUsuarioEstaAutenticado();
@@ -93,7 +92,7 @@ public class Atm {
 
 	}
 
-	private void executaTarefa(int entradaDoUsuario) throws RecursoNaoEncontradoException {
+	private void executaTarefa(int entradaDoUsuario) throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		switch (entradaDoUsuario) {
 		case 1:
@@ -118,7 +117,7 @@ public class Atm {
 		}
 	}
 
-	private void saque() throws RecursoNaoEncontradoException {
+	private void saque() throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		this.tela.mostraMensagem("Digite o valor a ser sacado");
 		int valorASacar = this.teclado.getUserInput();
@@ -132,7 +131,7 @@ public class Atm {
 
 	}
 
-	private void deposita() throws RecursoNaoEncontradoException {
+	private void deposita() throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		this.tela.mostraMensagem("Digite o número da conta");
 		Conta contaADepositar = this.bancoDb.findConta(this.teclado.getUserInput())

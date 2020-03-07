@@ -26,7 +26,7 @@ public class Tela {
 		System.out.println("2: Depósito");
 		System.out.println("3: Saque");
 		System.out.println("4: Sair");
-		delimitador();
+		//delimitador();
 	}
 	/**
 	 * Mostra o menu do ATM para usuários não logados.
@@ -37,7 +37,7 @@ public class Tela {
 		System.out.println("-----------ATM-----------------");
 		System.out.println("1: Logar no sistema");
 		System.out.println("2: Depósito");
-		delimitador();
+		//delimitador();
 		
 	}
 	

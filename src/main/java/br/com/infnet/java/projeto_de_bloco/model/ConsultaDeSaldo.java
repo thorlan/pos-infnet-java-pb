@@ -1,16 +1,10 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
-import br.com.infnet.java.projeto_de_bloco.exception.RecursoNaoEncontradoException;
-
 /**
  * @author thiago
- * Esta classe uma consulta de saldo.
+ * Esta classe efetua uma consulta de saldo.
  */
 public class ConsultaDeSaldo extends Transacao{
-	
-	public ConsultaDeSaldo(Conta conta, double valor) throws RecursoNaoEncontradoException {
-		super(conta, valor);
-	}
 	
 	public ConsultaDeSaldo(Conta conta) {
 		super(conta);

@@ -21,9 +21,9 @@ public class Persistencia {
 
 	private boolean criaSeNaoExistir() throws RecursoNaoEncontradoException {
 		
-		File yourFile = new File(ACCOUNT_FILE);
+		File accountsFile = new File(ACCOUNT_FILE);
 		try {
-			return yourFile.createNewFile();
+			return accountsFile.createNewFile();
 		} catch (IOException e) {
 			throw new RecursoNaoEncontradoException(recursoNaoEncontradoMsg);
 		}
