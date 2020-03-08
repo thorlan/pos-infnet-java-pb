@@ -3,14 +3,9 @@ package br.com.infnet.java.projeto_de_bloco.model;
 import java.io.Serializable;
 
 /**
- * 
+ * Representa uma conta de um cliente com suas informações e operações.
  * @author thiago
- * Representa uma conta de um cliente do banco
- * Contem três atributos: 
- * 	o saldo da conta (double saldo) 
- * 	número da conta, que é o identificador da mesma (int numero)
- *  pin do cliente, que serve para autenticar o mesmo (int pin)
- * 
+ *
  */
 public class Conta implements Serializable {
 
@@ -51,8 +46,11 @@ public class Conta implements Serializable {
 		this.numero = numero;
 	}
 	
+
 	/**
 	 * Efetua um saque na conta se e somente se o valor passado não for maior que o saldo.
+	 * @param valor
+	 * @return Boolean
 	 */
 	public boolean sacar(double valor) {
 		if (valor > this.saldo) {
@@ -63,6 +61,10 @@ public class Conta implements Serializable {
 		}
 	}
 	
+	/**
+	 * Efetua o depósito na conta.
+	 * @param valor
+	 */
 	public void depositar(double valor) {
 		this.saldo += valor;
 	}

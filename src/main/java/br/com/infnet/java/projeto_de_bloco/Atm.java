@@ -15,8 +15,15 @@ import br.com.infnet.java.projeto_de_bloco.model.Tela;
 import br.com.infnet.java.projeto_de_bloco.model.Transacao;
 
 /**
- * Representa o atm e suas funcionalidades
- *
+ * Representa o atm e suas funcionalidades. Todas as funções do sistema passam por esta classe.
+ * @author thiago
+ * @see BancoDB
+ * @see Tela
+ * @see Teclado
+ * @see Conta
+ * @see Transacao
+ * @see DispensadorDeCedulas
+ * 
  */
 public class Atm {
 
@@ -57,6 +64,12 @@ public class Atm {
 
 	}
 
+	/**
+	 * Mostra o menu padrão para o usuário não autenticado e lê a entrada do mesmo.
+	 * @param atm
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void menuPadrao(Atm atm) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		atm.tela.showMenuPadrao();
 		atm.tela.mostraMensagem("Digite a opção desejada:");
@@ -66,6 +79,12 @@ public class Atm {
 
 	}
 
+	/**
+	 * Mostra o menu para o usuário autenticado e lê a entrada do mesmo.
+	 * @param atm
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void menuParaUsuarioLogado(Atm atm) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		atm.tela.mostraMensagemDeBoasVindas(usuarioLogado);
 		atm.tela.showMenu();
@@ -76,6 +95,12 @@ public class Atm {
 
 	}
 
+	/**
+	 * Executa a entrada do usuário não autenticado.
+	 * @param entradaDoUsuario
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void executaTarefaUsuarioNaoLogado(int entradaDoUsuario) throws RecursoNaoEncontradoException, ValorInvalidoException {
 		switch (entradaDoUsuario) {
 		case 1:
@@ -92,6 +117,12 @@ public class Atm {
 
 	}
 
+	/**
+	 * Executa a entrada do usuário.
+	 * @param entradaDoUsuario
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void executaTarefa(int entradaDoUsuario) throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		switch (entradaDoUsuario) {
@@ -117,6 +148,11 @@ public class Atm {
 		}
 	}
 
+	/**
+	 * Efetua o saque na conta do usuário autenticado.
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void saque() throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		this.tela.mostraMensagem("Digite o valor a ser sacado");
@@ -131,6 +167,11 @@ public class Atm {
 
 	}
 
+	/**
+	 * Efetua o depósito para conta e valor passado.
+	 * @throws RecursoNaoEncontradoException
+	 * @throws ValorInvalidoException
+	 */
 	private void deposita() throws RecursoNaoEncontradoException, ValorInvalidoException {
 
 		this.tela.mostraMensagem("Digite o número da conta");
@@ -144,6 +185,10 @@ public class Atm {
 		this.tela.mostraMensagem(transacao.executa());
 	}
 
+	/**
+	 * Consulta saldo para a conta do usuário autenticado.
+	 * @throws RecursoNaoEncontradoException
+	 */
 	private void consultaSaldo() throws RecursoNaoEncontradoException {
 
 		this.transacao = new ConsultaDeSaldo(usuarioLogado);
@@ -151,6 +196,11 @@ public class Atm {
 
 	}
 
+	/**
+	 * Verifica se o usuário está autenticado.
+	 * @return
+	 * @throws RecursoNaoEncontradoException
+	 */
 	private boolean oUsuarioEstaAutenticado() throws RecursoNaoEncontradoException {
 		if (!usuarioAutenticado) {
 			if (!autenticaUsuario()) {
@@ -161,6 +211,10 @@ public class Atm {
 		return usuarioAutenticado;
 	}
 
+	/**
+	 * Efetua a autenticação do usuário.
+	 * @return
+	 */
 	private boolean autenticaUsuario() {
 		tela.mostraMensagem("Entre com o número da conta: ");
 		int numeroDaConta = teclado.getUserInput();

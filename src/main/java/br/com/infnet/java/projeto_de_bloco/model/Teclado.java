@@ -3,18 +3,17 @@ package br.com.infnet.java.projeto_de_bloco.model;
 import java.util.Scanner;
 
 /**
- * 
+ * Representa o teclado do ATM, usadda para consumir as entradas do usuário.
  * @author thiago
- * Representa o teclado de um caixa automático.
- * Usada para consumir as entradas de um usuário em um caixa automático
+ *
  */
 public class Teclado {
 	
 	Scanner input = new Scanner(System.in);
+	
 	/**
-	 * Recupera a entrada do usuário, caso o mesmo insira algo 
-	 * que não seja um inteiro, uma mensagem de erro é exibida
-	 * @return a entrada do usuário.
+	 * Recupera a entrada do usuário. Caso o valor passado não seja um inteiro, um erro é lançado.
+	 * @return
 	 */
 	public Integer getUserInput() {
 		return input.nextInt();

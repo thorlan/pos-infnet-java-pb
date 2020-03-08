@@ -3,6 +3,11 @@ package br.com.infnet.java.projeto_de_bloco;
 import br.com.infnet.java.projeto_de_bloco.dao.BancoDB;
 import br.com.infnet.java.projeto_de_bloco.model.Conta;
 
+/**
+ * Classe de utilidades para popular o arquivo Account.txt com duas contas.
+ * @author thiago
+ *
+ */
 public class PopulaContas {
 
 	public static void main(String[] args) {

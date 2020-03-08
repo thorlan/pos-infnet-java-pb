@@ -6,13 +6,9 @@ import java.util.Locale;
 import br.com.infnet.java.projeto_de_bloco.exception.ValorInvalidoException;
 
 /**
- * 
- * @author thiago 
- * 		   Representa uma transação genérica em um ATM (depósito, saque,
- *         consulta de saldo) Contem dois atributos, um é o valor da transação
- *         (double valor) e o outro é o número da conta de destino (int
- *         numeroDaConta)
- * 
+ * Representa uma transação genérica do ATM.
+ * @author thiago
+ *
  */
 public abstract class Transacao {
 
@@ -37,17 +33,31 @@ public abstract class Transacao {
 		return this.conta;
 	}
 	
+	/**
+	 * Somente são aceitos valores > 0 para as transações.
+	 * @param valor
+	 * @throws ValorInvalidoException
+	 */
 	private void checaValor(double valor) throws ValorInvalidoException {
 		if (valor < 0) {
 			throw new ValorInvalidoException("Somente valores maiores que zero são aceitos");
 		}
 	}
 
+	/**
+	 * Mostra mensagem amigável com valores de moeda formatados em en-US
+	 * @param valor
+	 * @return String
+	 */
 	protected String mostraMensagemFormatadaParaDolar(double valor) {
 		Locale locale = new Locale("en", "US");
 		NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
 		return formatter.format(valor);
 	}
 
+	/**
+	 * As transações devem ter as suas próprias implementações.
+	 * @return String
+	 */
 	public abstract String executa();
 }

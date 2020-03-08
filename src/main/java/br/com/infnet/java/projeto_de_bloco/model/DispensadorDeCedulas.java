@@ -1,9 +1,9 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
 /**
- * 
- * @author thiago Representa a o dispensador de cédulas do ATM O ATM é
- *         abastecido com 500 notas de 20.
+ * Representa o dispensador de cédulas do banco.
+ * @author thiago
+ *
  */
 public class DispensadorDeCedulas {
 
@@ -11,9 +11,9 @@ public class DispensadorDeCedulas {
 	private static int count = 0;
 
 	/**
-	 * O ATM tem 500 cédulas de 20, para saber se o montante é suficiente precisamos
-	 * dividir o desejado por 20, somar ao contador e verificar se o resultado é
-	 * maior que o contador inicial.
+	 * Verifica se o montante de cédulas é suficiente para determinado valor.
+	 * @param amount
+	 * @return Boolean
 	 */
 	private boolean isSufficientCashAvailable(int amount) {
 
@@ -23,6 +23,11 @@ public class DispensadorDeCedulas {
 		return true;
 	}
 
+	/**
+	 * Recalcula o montante de cédulas após uma operação de saque.
+	 * @param amount
+	 * @return Boolean
+	 */
 	public boolean dispenseCash(int amount) {
 		if (isSufficientCashAvailable(amount)) {
 			count += amount;

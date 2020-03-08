@@ -1,15 +1,15 @@
 package br.com.infnet.java.projeto_de_bloco.model;
 
 /**
- * 
- * @author thiago Representa a tela de um caixa automático. Usada para exibir as
- *         mensagens para o usuário.
+ * Representa a tela(menu) do ATM. Utilizada para mostrar mensagens aos usuários.
+ * @author thiago
+ *
  */
 public class Tela {
 
 	/**
-	 * @param Uma String contendo a mensagem a ser exibida na tela
-	 * @return void
+	 * Imprime a mensagem na tela para ser visualizada pelo usuário.
+	 * @param msg
 	 */
 	public void mostraMensagem(String msg) {
 		System.out.println(msg);
@@ -17,8 +17,6 @@ public class Tela {
 
 	/**
 	 * Mostra o menu do ATM para o usuário logado.
-	 * 
-	 * @return void
 	 */
 	public void showMenu() {
 		System.out.println("-----------ATM-----------------");
@@ -26,18 +24,14 @@ public class Tela {
 		System.out.println("2: Depósito");
 		System.out.println("3: Saque");
 		System.out.println("4: Sair");
-		//delimitador();
 	}
 	/**
 	 * Mostra o menu do ATM para usuários não logados.
-	 * 
-	 * @return void
 	 */
 	public void showMenuPadrao() {
 		System.out.println("-----------ATM-----------------");
 		System.out.println("1: Logar no sistema");
 		System.out.println("2: Depósito");
-		//delimitador();
 		
 	}
 	
